@@ -1,0 +1,42 @@
+﻿@page "/createEventForm"
+
+<PageTitle>Create event</PageTitle>
+
+<h1>Event form</h1>
+
+<p>Please fill out this form to create your event</p>
+
+<form action="/action_page.php">
+    <div class="mb-3 mt-3">
+        <label for="eventName" class="form-label">Enter event name:</label>
+        <input type="eventName" class="form-control" id="eventName" placeholder="Event name" name="eventName">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="description">Enter description of your event:</label>
+<textarea class="form-control" rows="5" id="description" name="description"></textarea>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="Location/Application" class="form-label">Enter location and/or application name of the event:</label>
+        <input type="location" class="form-control" id="location" placeholder="Location/application" name="location">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="organiser" class="form-label">Enter name of organiser:</label>
+        <input type="organiser" class="form-control" id="organiser" placeholder="Organiser name" name="organiser">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="contacts" class="form-label">Enter contact information (email, Discord ID etc.)</label>
+        <input type="contacts" class="form-control" id="contacts" placeholder="Contact information" name="contacts">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="discordLink" class="form-label">Enter Discord server link:</label>
+        <input type="discordLink" class="form-control" id="discordLink" placeholder="Discord link" name="discordLink">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
