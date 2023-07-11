@@ -4,12 +4,13 @@ using POC_event_manager.Data.DataAccess.Model;
 
 namespace POC_event_manager.Data.DataAccess.Context
 {
-    public class Context : DbContext
+    public class POC_DB_Context : DbContext
     {
-        public DbSet<Event> Blogs { get; set; }
-        public DbSet<Participant> Posts { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Participant> Participants { get; set; }
         public string DbPath { get; }
-        public Context()
+        
+        public POC_DB_Context()
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);

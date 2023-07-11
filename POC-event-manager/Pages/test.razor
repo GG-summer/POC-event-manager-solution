@@ -1,0 +1,27 @@
+﻿@page "/test"
+
+
+
+
+
+<p>Event name: @events[0].Name</p>
+
+
+
+@code{
+    [Parameter]
+    Event eventToAdd = new Event();
+    [Parameter]
+    List<Event> events;
+
+    EventRepo.AddEventsToDB(eventToAdd);
+
+
+    Task.FromResult(db.getEvents);
+
+
+    protected override async Task OnInitializedAsync(){
+        events = await EventRepo.GetEventsFromDB();
+    }
+}
+
