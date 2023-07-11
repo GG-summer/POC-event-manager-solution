@@ -1,25 +1,26 @@
 ﻿namespace POC_event_manager.Data.DataAccess.Model
 {
-    public class Event
+    public class Participant
     {
-        public Event(string name, string description, string location, string organizer, string organizerContactInfo, string discordServerLink, List<Participant> participants)
+        public Participant(string userName, string discordID, string location, string organizer, string organizerContactInfo, string discordServerLink, List<Event> events)
         {
-            Name = name;
-            Description = description;
+            UserName = userName;
+            DiscordID = discordID;
             Location = location;
             Organizer = organizer;
             OrganizerContactInfo = organizerContactInfo;
             DiscordServerLink = discordServerLink;
-            Participants = participants;
+            Events = events;
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string UserName { get; set; }
+        public string DiscordID { get; set; }
         public string Location { get; set; }
         public string Organizer { get; set; }
         public string OrganizerContactInfo { get; set; }
         public string DiscordServerLink { get; set; }
-        public List<Participant> Participants { get; set; }
+        public List<Event> Events { get; set; }
+
     }
 }
