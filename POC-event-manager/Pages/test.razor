@@ -2,26 +2,35 @@
 
 
 
+<h1>Greetings, @AnEvent.Name</h1>
 
-
-<p>Event name: @events[0].Name</p>
+@*<button class="btn btn-primary" @onclick="ChangeName">Hi</button>*@
 
 
 
 @code{
+    //List<Participant> emptyParticipantList = new List<Participant> { new Participant("", "", "", "", "", "") };
+    //List<Event> emptyEventList = new List<Event> { new Event("", "", "", "", "", "", new List<Participant>()) };
+    EventRepo dbAccess = new EventRepo();
+
+    Event AnEvent = new Event("this is a name", "this is a description", "this is a location", "this is a organizer", "this is organizer info", "this is a discordlink", new List<Participant>());
+    Participant AParticipant = new Participant("this is a userName", "this is adiscord id", "this is a location", "this is a", "this is a", "this is a");
+
+    //List<Event> EventList = new List<Event> { AnEvent };
+    //List<Participant> EventList = new List<Participant> { AParticipant };
+    dbAccess.AddEventsToDB(AnEvent);
+    events = dbAccess.GetEventsFromDB();
+
+
+    /*
     [Parameter]
-    Event eventToAdd = new Event();
-    [Parameter]
+    Event eventToAdd = new Event("this is a name", "", "", "", "", "", new Participant("", "", "", "", "", "", new List<Event>()));
+    [ParamArray]
     List<Event> events;
 
     EventRepo.AddEventsToDB(eventToAdd);
 
-
-    Task.FromResult(db.getEvents);
-
-
-    protected override async Task OnInitializedAsync(){
-        events = await EventRepo.GetEventsFromDB();
-    }
+    events = EventRepo.GetEventsFromDB();
+    */
 }
 
