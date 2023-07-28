@@ -1,36 +1,45 @@
 ﻿@page "/test"
+@using POC_event_manager.Data.DataAccess.Context;
 
 
 
-<h1>Greetings, @AnEvent.Name</h1>
+<h1>Initialized event, @anEvent.Name</h1>
+<h1>Initialized event, @anEvent.Name</h1>
+<h1>Initialized event, @anEvent.Name</h1>
+<button @onclick="test_func">Click Me</button>
 
 @*<button class="btn btn-primary" @onclick="ChangeName">Hi</button>*@
 
 
 
 @code{
-    //List<Participant> emptyParticipantList = new List<Participant> { new Participant("", "", "", "", "", "") };
-    //List<Event> emptyEventList = new List<Event> { new Event("", "", "", "", "", "", new List<Participant>()) };
-    EventRepo dbAccess = new EventRepo();
+    Event anEvent = new Event("this is a name", "this is a description", "this is a location", "this is a organizer", "this is organizer info", "this is a discordlink", new List<Participant>());
+    Event retrived_event;
+    Event Changed_event;
 
-    Event AnEvent = new Event("this is a name", "this is a description", "this is a location", "this is a organizer", "this is organizer info", "this is a discordlink", new List<Participant>());
-    Participant AParticipant = new Participant("this is a userName", "this is adiscord id", "this is a location", "this is a", "this is a", "this is a");
+    void test_func()
+    {
+        using (var context = new POC_DB_Context())
+        {
+            // Create a new event
+            context.Events.Add(anEvent);
+            context.SaveChanges();
 
-    //List<Event> EventList = new List<Event> { AnEvent };
-    //List<Participant> EventList = new List<Participant> { AParticipant };
-    dbAccess.AddEventsToDB(AnEvent);
-    events = dbAccess.GetEventsFromDB();
+            // Read the event from the database
+            retrived_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
+            Console.WriteLine($"Retrieved Event: {retrived_event.Name}");
 
+            // Update the event
+            retrived_event.Name = "Updated Event";
+            context.SaveChanges();
 
-    /*
-    [Parameter]
-    Event eventToAdd = new Event("this is a name", "", "", "", "", "", new Participant("", "", "", "", "", "", new List<Event>()));
-    [ParamArray]
-    List<Event> events;
+            Changed_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
 
-    EventRepo.AddEventsToDB(eventToAdd);
+            // Delete the event
+            context.Events.Remove(retrived_event);
+            context.SaveChanges();
+        }
+    }
 
-    events = EventRepo.GetEventsFromDB();
-    */
 }
 
