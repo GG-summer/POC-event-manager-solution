@@ -30,7 +30,7 @@
             Console.WriteLine($"Retrieved Event: {retrived_event.Name}");
 
             // Update the event
-            retrived_event.Name = "Updated Event";
+            retrived_event.Name = "Updated Event Name";
             context.SaveChanges();
 
             Changed_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
