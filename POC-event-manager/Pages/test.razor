@@ -2,11 +2,21 @@
 @using POC_event_manager.Data.DataAccess.Context;
 
 
+<h1>Testsite for the DB</h1>
+<h2>Initialized event, @anEvent.Name</h2>
+<h2>starting event id, @anEvent.EventId</h2>
 
-<h1>Initialized event, @anEvent.Name</h1>
-<h1>Initialized event, @anEvent.Name</h1>
-<h1>Initialized event, @anEvent.Name</h1>
-<button @onclick="test_func">Click Me</button>
+<h2>Saved event, @saved_event.Name</h2>
+<h2>Retrived Event, @retrived_event.Name</h2>
+<h2>changed event, @changed_event.Name</h2>
+<h2>deleted event, @deleted_event.Name</h2>
+
+<div>press the buttons from the top down or it will crash</div>
+<div>the program should crash when trying to show the deleted element</div>
+<button @onclick="make_and_save">Save</button>
+<button @onclick="read_an_event">Read</button>
+<button @onclick="change_an_element_in_db">Change</button>
+<button @onclick="delete_element_from_db">Delete</button>
 
 @*<button class="btn btn-primary" @onclick="ChangeName">Hi</button>*@
 
@@ -14,8 +24,71 @@
 
 @code{
     Event anEvent = new Event("this is a name", "this is a description", "this is a location", "this is a organizer", "this is organizer info", "this is a discordlink", new List<Participant>());
-    Event retrived_event;
-    Event Changed_event;
+    Event saved_event = new Event("", "", "", "", "", "", new List<Participant>());
+    Event retrived_event = new Event("", "", "", "", "", "", new List<Participant>());
+    Event changed_event = new Event("", "", "", "", "", "", new List<Participant>());
+    Event deleted_event = new Event("", "", "", "", "", "", new List<Participant>());
+
+    void make_and_save()
+    {
+        using (var context = new POC_DB_Context())
+        {
+            // Create a new event
+            context.Events.Add(anEvent);
+            context.SaveChanges();
+            saved_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
+        }
+    }
+
+    void read_an_event()
+    {
+        using (var context = new POC_DB_Context())
+        {
+            // Read the event from the database
+            retrived_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
+            Console.WriteLine($"Retrieved Event: {retrived_event.Name}");
+        }
+    }
+
+    void change_an_element_in_db()
+    {
+        using (var context = new POC_DB_Context())
+        {
+            // Read the event from the database
+            Event temp = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
+
+            // Update the event
+            temp.Name = "Updated Event Name";
+            context.SaveChanges();
+
+            changed_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
+        }
+    }
+
+    void delete_element_from_db()
+    {
+        using (var context = new POC_DB_Context())
+        {
+            // Read the event from the database
+            Event temp = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
+
+            // Delete the event
+            context.Events.Remove(temp);
+            context.SaveChanges();
+
+            try
+            {
+                deleted_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
+            }
+            catch(Exception e)
+            {
+                deleted_event.Name = "not possible";
+            }
+        }
+    }
+
+
+
 
     void test_func()
     {
@@ -33,7 +106,7 @@
             retrived_event.Name = "Updated Event Name";
             context.SaveChanges();
 
-            Changed_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
+            changed_event = context.Events.FirstOrDefault(e => e.EventId == anEvent.EventId);
 
             // Delete the event
             context.Events.Remove(retrived_event);
